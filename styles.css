@@ -2,16 +2,16 @@
 
 :root {
   color-scheme: dark;
-  --bg: #100b08;
-  --panel: rgba(28, 19, 13, 0.96);
-  --line: rgba(224, 177, 94, 0.18);
-  --text: #f4ead8;
-  --muted: #b8a892;
+  --bg: #08111d;
+  --panel: rgba(10, 27, 42, 0.96);
+  --line: rgba(74, 221, 231, 0.22);
+  --text: #eef7fb;
+  --muted: #9fb5c5;
   --gold: #d9a84f;
   --gold-light: #f2d58d;
   --danger: #a7352f;
   --youtube: #ff0033;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.48), 0 0 34px rgba(47, 205, 219, 0.06);
   --radius-xl: 24px;
   --radius-lg: 18px;
 }
@@ -39,9 +39,10 @@ button, a { font: inherit; }
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% -10%, rgba(154, 91, 42, 0.24), transparent 38%),
-    radial-gradient(circle at 8% 36%, rgba(83, 44, 24, 0.18), transparent 32%),
-    linear-gradient(180deg, #1b120d 0%, #100b08 72%);
+    radial-gradient(circle at 50% -10%, rgba(30, 120, 170, 0.22), transparent 38%),
+    radial-gradient(circle at 8% 36%, rgba(16, 92, 132, 0.18), transparent 32%),
+    radial-gradient(circle at 92% 72%, rgba(38, 205, 214, 0.07), transparent 28%),
+    linear-gradient(180deg, #0d1b2a 0%, #08111d 72%);
 }
 
 .background::after {
@@ -71,7 +72,7 @@ button, a { font: inherit; }
 
 .eyebrow {
   margin: 0 0 8px;
-  color: #a9977f;
+  color: #86a8bd;
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: .16em;
@@ -125,8 +126,10 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
-  background: linear-gradient(180deg, rgba(48, 31, 20, .93), rgba(25, 17, 12, .97));
-  box-shadow: var(--shadow);
+  background:
+    linear-gradient(180deg, rgba(8, 23, 37, .82), rgba(5, 17, 29, .88)),
+    url("panel-background.png") center center / cover no-repeat;
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(87, 226, 235, .025);
 }
 
 .tracker-card { padding: 22px; }
@@ -136,7 +139,7 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(235, 191, 107, .04), transparent);
+  background: linear-gradient(90deg, transparent, rgba(75, 223, 234, .055), transparent);
 }
 
 .tracker-head {
@@ -156,39 +159,67 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
 .support-copy {
   max-width: 620px;
   margin: 0 0 14px;
-  color: #e8ddcc;
+  color: #dceaf2;
   font-size: clamp(1rem, 2vw, 1.16rem);
   font-weight: 600;
   line-height: 1.55;
 }
 
-.youtube-button {
+.youtube-channel-block {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.youtube-image-button {
+  display: block;
+  width: 126px;
+  height: 126px;
+  overflow: hidden;
+  border: 1px solid rgba(74, 221, 231, .42);
+  border-radius: 28px;
+  background: rgba(5, 20, 33, .72);
+  box-shadow: 0 7px 20px rgba(24, 197, 218, .12);
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+.youtube-image-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.youtube-image-button:hover {
+  transform: translateY(-1px) scale(1.01);
+  border-color: rgba(74, 221, 231, .72);
+  box-shadow: 0 9px 24px rgba(24, 197, 218, .20);
+}
+
+.youtube-channel-link {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 43px;
-  padding: 0 16px;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 11px;
-  color: white;
-  background: linear-gradient(180deg, #ff1746, #c9002a);
-  box-shadow: 0 8px 24px rgba(255, 0, 51, .18);
-  font-size: .9rem;
+  gap: 5px;
+  padding-left: 2px;
+  color: #58ddea;
+  font-size: .78rem;
   font-weight: 800;
+  line-height: 1.2;
   text-decoration: none;
-  transition: transform .15s ease, filter .15s ease;
+  transition: color .15s ease, transform .15s ease;
 }
 
-.youtube-button:hover {
+.youtube-channel-link span {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.youtube-channel-link:hover {
+  color: #9af4f8;
   transform: translateY(-1px);
-  filter: brightness(1.08);
-}
-
-.youtube-icon {
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
 }
 
 .stats-panel {
@@ -199,9 +230,9 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
 .progress-box,
 .completed-game-card {
   padding: 13px 14px;
-  border: 1px solid rgba(255,255,255,.06);
+  border: 1px solid rgba(83, 194, 211, .12);
   border-radius: 14px;
-  background: rgba(0,0,0,.16);
+  background: rgba(5, 20, 33, .48);
 }
 
 .progress-meta,
@@ -277,7 +308,7 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
   height: 32px;
   border: 1px solid rgba(255,255,255,.08);
   border-radius: 9px;
-  color: #cfc1ad;
+  color: #adc2cf;
   background: rgba(255,255,255,.04);
   cursor: pointer;
 }
@@ -312,7 +343,7 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
 
 .action-button.secondary {
   border-color: rgba(220, 162, 68, .34);
-  background: rgba(96, 61, 25, .36);
+  background: rgba(56, 43, 23, .34);
 }
 
 .action-button.danger {
@@ -336,8 +367,8 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
   border: 1px solid rgba(255,255,255,.06);
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(circle at top, rgba(100, 63, 30, .10), transparent 58%),
-    rgba(14, 9, 6, .42);
+    radial-gradient(circle at top, rgba(36, 137, 175, .10), transparent 58%),
+    rgba(5, 18, 30, .58);
 }
 
 .okey-card {
@@ -432,7 +463,7 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
 
 .footnote {
   margin: 14px 2px 0;
-  color: #857663;
+  color: #718c9d;
   text-align: center;
   font-size: .82rem;
 }
@@ -440,15 +471,15 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
 .rules-dialog {
   width: min(610px, calc(100% - 28px));
   padding: 0;
-  border: 1px solid rgba(223, 175, 92, .2);
+  border: 1px solid rgba(74, 221, 231, .22);
   border-radius: 20px;
   color: var(--text);
-  background: #1c130e;
+  background: #0b1d2d;
   box-shadow: 0 30px 100px rgba(0,0,0,.62);
 }
 
 .rules-dialog::backdrop {
-  background: rgba(7,5,4,.78);
+  background: rgba(3,10,17,.82);
   backdrop-filter: blur(5px);
 }
 
@@ -532,8 +563,13 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
 
   .support-block { padding-top: 2px; }
 
-  .youtube-button {
-    width: 100%;
+  .youtube-channel-block {
+    max-width: 100%;
+  }
+
+  .youtube-image-button {
+    width: 112px;
+    height: 112px;
   }
 
   .stats-panel {
@@ -566,7 +602,7 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
 /* v5: requested minimal additions only */
 .usage-hint {
   margin: 9px 0 0;
-  color: #8f806c;
+  color: #7895a7;
   font-size: .78rem;
   line-height: 1.4;
   white-space: nowrap;
@@ -578,16 +614,16 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
   gap: 8px;
   min-height: 42px;
   padding: 0 12px;
-  border: 1px solid rgba(216, 168, 79, .24);
+  border: 1px solid rgba(74, 221, 231, .20);
   border-radius: 11px;
-  background: rgba(0, 0, 0, .16);
-  color: #a9977f;
+  background: rgba(5, 20, 33, .48);
+  color: #86a8bd;
   font-size: .72rem;
   white-space: nowrap;
 }
 
 .countdown-badge strong {
-  color: #ead9bc;
+  color: #d9e9f1;
   font-size: .78rem;
 }
 
@@ -615,8 +651,8 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
   padding: 22px;
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
-  background: linear-gradient(180deg, rgba(48, 31, 20, .93), rgba(25, 17, 12, .97));
-  box-shadow: var(--shadow);
+  background: linear-gradient(180deg, rgba(13, 34, 52, .96), rgba(8, 23, 37, .98));
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(87, 226, 235, .025);
 }
 
 .video-guide-card::before {
@@ -624,7 +660,7 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(235, 191, 107, .04), transparent);
+  background: linear-gradient(90deg, transparent, rgba(75, 223, 234, .055), transparent);
 }
 
 .video-guide-heading {
@@ -641,8 +677,8 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
   aspect-ratio: 16 / 9;
   border: 1px solid rgba(255,255,255,.07);
   border-radius: 16px;
-  background: #090604;
-  box-shadow: inset 0 0 0 1px rgba(216, 168, 79, .04);
+  background: #06111c;
+  box-shadow: inset 0 0 0 1px rgba(74, 221, 231, .06), 0 0 24px rgba(44, 207, 220, .04);
 }
 
 
