@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17100b">
+  <meta name="description" content="Metin2 Okey etkinliği için hızlı, mobil uyumlu kart takip aracı.">
+  <title>Metin2 Okey Kart Takip</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="background" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">METİN2 OKEY YARDIMCISI</p>
+        <h1>Okey Kart Takip</h1>
+        <p class="hero-copy">
+          Kullandığın kartlara dokun. Gri kartlar artık elinde olmayan kartları gösterir.
+          Seçimlerin otomatik kaydedilir.
+        </p>
+      </div>
+
+      <div class="save-state" id="saveState" role="status" aria-live="polite">
+        <span class="save-dot"></span>
+        Otomatik kayıt aktif
+      </div>
+    </header>
+
+    <section class="tracker-card" aria-labelledby="supportTitle">
+      <div class="tracker-head">
+        <div class="support-block">
+          <p class="support-copy" id="supportTitle">
+            KANALIMA ABONE OLARAK BANA DESTEK OLABİLİRSİN ❤️
+          </p>
+
+          <a
+            class="youtube-button"
+            id="youtubeButton"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="youtube-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/>
+            </svg>
+            YouTube Kanalına Git
+          </a>
+          <p class="usage-hint">Kartı seçmek için tıkla, iptal etmek için tekrar tıkla.</p>
+        </div>
+
+        <aside class="stats-panel" aria-label="Oyun istatistikleri">
+          <div class="progress-box">
+            <div class="progress-meta">
+              <span>Kalan Kart</span>
+              <strong id="progressText">24 / 24</strong>
+            </div>
+
+            <div
+              class="progress-track"
+              role="progressbar"
+              aria-label="Kalan kart oranı"
+              aria-valuemin="0"
+              aria-valuemax="24"
+              aria-valuenow="24"
+              id="progressBar"
+            >
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <button class="new-game-button" id="newGameButton" type="button">
+            <span aria-hidden="true">＋</span>
+            Yeni Oyun
+          </button>
+
+          <div class="completed-game-card">
+            <div>
+              <span>Tamamlanan Oyun</span>
+              <strong id="completedGames">0</strong>
+            </div>
+
+            <button
+              class="counter-reset"
+              id="resetCompletedButton"
+              type="button"
+              aria-label="Tamamlanan oyun sayacını sıfırla"
+              title="Sayacı sıfırla"
+            >
+              ↻
+            </button>
+          </div>
+        </aside>
+      </div>
+
+      <div class="actions">
+        <div class="countdown-badge" id="countdownBadge" aria-live="polite">
+          <span id="countdownBadgeLabel">Etkinlik</span>
+          <strong id="countdownBadgeTime">--g --s --d</strong>
+        </div>
+
+        <button class="action-button secondary" id="rulesButton" type="button">
+          <span aria-hidden="true">?</span>
+          Kurallar
+        </button>
+
+        <button class="action-button danger" id="resetButton" type="button">
+          <span aria-hidden="true">↻</span>
+          Kartları Sıfırla
+        </button>
+      </div>
+
+      <div class="card-board" id="cardBoard" aria-label="Okey kartları"></div>
+    </section>
+
+    <section class="video-guide-card" aria-labelledby="videoGuideTitle">
+      <div class="video-guide-heading">
+        <div>
+          <p class="eyebrow">YOUTUBE</p>
+          <h2 id="videoGuideTitle">Video Rehberi</h2>
+        </div>
+      </div>
+
+      <div class="video-frame-wrap">
+        <a
+          class="video-thumbnail-link"
+          href="https://youtu.be/_yMIVYHLpQI?si=pxRYJp3Bt8YWfhuK"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Video rehberini YouTube'da aç"
+        >
+          <img
+            src="https://i.ytimg.com/vi/_yMIVYHLpQI/hqdefault.jpg"
+            alt="Metin2 Okey Video Rehberi küçük resmi"
+            loading="lazy"
+          >
+          <span class="video-play-button" aria-hidden="true">
+            <svg viewBox="0 0 68 48" role="img" aria-hidden="true">
+              <path class="play-bg" d="M66.52 7.85a8 8 0 0 0-5.63-5.66C55.94.86 34 .86 34 .86S12.06.86 7.11 2.19A8 8 0 0 0 1.48 7.85C.15 12.82.15 23.2.15 23.2s0 10.38 1.33 15.35a8 8 0 0 0 5.63 5.66C12.06 45.54 34 45.54 34 45.54s21.94 0 26.89-1.33a8 8 0 0 0 5.63-5.66c1.33-4.97 1.33-15.35 1.33-15.35s0-10.38-1.33-15.35Z"/>
+              <path class="play-triangle" d="M27 34.2 45 23.2 27 12.2Z"/>
+            </svg>
+          </span>
+          <span class="video-open-text">YouTube'da İzle</span>
+        </a>
+      </div>
+    </section>
+
+
+    <p class="footnote">
+      Gri kart = artık elinde olmayan kart • Renkli kart = elinde kalan kart
+    </p>
+  </main>
+
+  <dialog class="rules-dialog" id="rulesDialog">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">KULLANIM</p>
+        <h2>Kart Takip Kuralları</h2>
+      </div>
+      <button class="dialog-close" id="dialogClose" type="button" aria-label="Kapat">×</button>
+    </div>
+
+    <div class="dialog-content">
+      <p>Bu araç Okey etkinliği sırasında elinde kalan kartları hızlıca takip etmek için tasarlandı.</p>
+      <ul>
+        <li>Kullandığın karta dokun; kart griye dönerek elinden çıktığını gösterir.</li>
+        <li>Yanlış işaretlediysen aynı karta tekrar dokun.</li>
+        <li>“Yeni Oyun” mevcut kartları sıfırlar ve tamamlanan oyun sayısını 1 artırır.</li>
+        <li>“Kartları Sıfırla” yalnızca kartları yeniler, oyun sayacını değiştirmez.</li>
+        <li>Kartlar ve tamamlanan oyun sayısı cihazında otomatik saklanır.</li>
+      </ul>
+    </div>
+
+    <div class="dialog-actions">
+      <button class="action-button primary" id="dialogOkay" type="button">Tamam</button>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
