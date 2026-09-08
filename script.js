@@ -446,3 +446,82 @@
 
   init();
 })();
+
+
+/* ELGRISO SUPABASE STATS START */
+(() => {
+  const SUPABASE_URL = 'https://cakuqftdhjojozrasgad.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Pd-X9gwMvDHGGorA6JyEBw_L9ZUFhIs';
+
+  function setStats(active, total) {
+    const activeEl =
+      document.getElementById('activeUsers') ||
+      document.getElementById('active-users') ||
+      document.querySelector('[data-active-users]');
+    const totalEl =
+      document.getElementById('totalVisits') ||
+      document.getElementById('total-visits') ||
+      document.querySelector('[data-total-visits]');
+
+    if (activeEl) activeEl.textContent = String(active);
+    if (totalEl) totalEl.textContent = String(total);
+  }
+
+  async function startStats() {
+    if (!window.supabase || !window.supabase.createClient) {
+      console.error('Supabase JS yüklenemedi.');
+      return;
+    }
+
+    const client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+      }
+    );
+
+    let sessionId = sessionStorage.getItem('elgriso_presence_session');
+    if (!sessionId) {
+      sessionId = (crypto.randomUUID ? crypto.randomUUID() :
+        Date.now().toString(36) + Math.random().toString(36).slice(2));
+      sessionStorage.setItem('elgriso_presence_session', sessionId);
+    }
+
+    try {
+      const visitKey = 'elgriso_visit_registered';
+      if (!sessionStorage.getItem(visitKey)) {
+        const { error } = await client.rpc('register_visit');
+        if (error) throw error;
+        sessionStorage.setItem(visitKey, '1');
+      }
+    } catch (err) {
+      console.error('Ziyaret sayacı hatası:', err);
+    }
+
+    async function heartbeat() {
+      try {
+        const { data, error } = await client.rpc('heartbeat_presence', {
+          p_session_id: sessionId
+        });
+        if (error) throw error;
+
+        const row = Array.isArray(data) ? data[0] : data;
+        if (row) setStats(row.active_users ?? '--', row.total_visits ?? '--');
+      } catch (err) {
+        console.error('Aktif kullanıcı sayacı hatası:', err);
+      }
+    }
+
+    await heartbeat();
+    setInterval(heartbeat, 60000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startStats);
+  } else {
+    startStats();
+  }
+})();
+/* ELGRISO SUPABASE STATS END */
+
