@@ -4,7 +4,14 @@
   const CONFIG = Object.freeze({
     storage: {
       usedCards: "metin2-okey-used-cards-v3",
-      completedGames: "metin2-okey-completed-games-v3"
+      completedGames: "metin2-okey-completed-games-v3",
+      presenceSession: "metin2-okey-presence-session-v1"
+    },
+
+    supabase: {
+      url: "https://cakuqftdhjojozrasgad.supabase.co",
+      publishableKey: "sb_publishable_Pd-X9gwMvDHGGorA6JyEBw_L9ZUFhIs",
+      heartbeatMs: 60000
     },
 
     // Buraya gerçek kanal adresini yazacağız.
@@ -50,14 +57,16 @@
     youtubeButton: document.getElementById("youtubeButton"),
     countdownBadgeLabel: document.getElementById("countdownBadgeLabel"),
     countdownBadgeTime: document.getElementById("countdownBadgeTime"),
-
+    activeUsers: document.getElementById("activeUsers"),
+    totalVisits: document.getElementById("totalVisits")
   };
 
   const state = {
     usedCards: loadUsedCards(),
     completedGames: loadCompletedGames(),
     saveTimer: null,
-    countdownTimer: null
+    countdownTimer: null,
+    heartbeatTimer: null
   };
 
   function safeGet(key) {
@@ -337,6 +346,90 @@
     });
   }
 
+  function getPresenceSessionId() {
+    try {
+      let sessionId = sessionStorage.getItem(CONFIG.storage.presenceSession);
+      if (!sessionId) {
+        sessionId = typeof crypto?.randomUUID === "function"
+          ? crypto.randomUUID()
+          : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        sessionStorage.setItem(CONFIG.storage.presenceSession, sessionId);
+      }
+      return sessionId;
+    } catch {
+      return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    }
+  }
+
+  async function supabaseRpc(functionName, body = {}) {
+    const response = await fetch(`${CONFIG.supabase.url}/rest/v1/rpc/${functionName}`, {
+      method: "POST",
+      headers: {
+        apikey: CONFIG.supabase.publishableKey,
+        Authorization: `Bearer ${CONFIG.supabase.publishableKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body),
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`Sayaç isteği başarısız: ${response.status}`);
+    }
+
+    return response.json();
+  }
+
+  function formatStatNumber(value) {
+    const number = Number(value);
+    return Number.isFinite(number)
+      ? new Intl.NumberFormat("tr-TR").format(number)
+      : "--";
+  }
+
+  async function registerVisit() {
+    try {
+      const total = await supabaseRpc("register_visit");
+      elements.totalVisits.textContent = formatStatNumber(total);
+    } catch (error) {
+      console.warn("Toplam ziyaret sayacı bağlanamadı.", error);
+    }
+  }
+
+  async function sendHeartbeat(sessionId) {
+    try {
+      const result = await supabaseRpc("heartbeat_presence", {
+        p_session_id: sessionId
+      });
+      const stats = Array.isArray(result) ? result[0] : result;
+
+      if (stats) {
+        elements.activeUsers.textContent = formatStatNumber(stats.active_users);
+        elements.totalVisits.textContent = formatStatNumber(stats.total_visits);
+      }
+    } catch (error) {
+      console.warn("Aktif kullanıcı sayacı bağlanamadı.", error);
+    }
+  }
+
+  function initSiteStats() {
+    if (!elements.activeUsers || !elements.totalVisits) return;
+
+    const sessionId = getPresenceSessionId();
+    registerVisit();
+    sendHeartbeat(sessionId);
+
+    state.heartbeatTimer = window.setInterval(() => {
+      sendHeartbeat(sessionId);
+    }, CONFIG.supabase.heartbeatMs);
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) sendHeartbeat(sessionId);
+    });
+
+    window.addEventListener("focus", () => sendHeartbeat(sessionId));
+  }
+
   function initCountdown() {
     renderCountdown();
     state.countdownTimer = window.setInterval(renderCountdown, 1000);
@@ -348,6 +441,7 @@
     renderCards();
     renderCompletedGames();
     initCountdown();
+    initSiteStats();
   }
 
   init();

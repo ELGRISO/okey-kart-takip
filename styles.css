@@ -57,6 +57,7 @@ button, a { font: inherit; }
 }
 
 .app-shell {
+  position: relative;
   width: min(1040px, calc(100% - 28px));
   margin: 0 auto;
   padding: 48px 0 42px;
@@ -774,5 +775,56 @@ h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
     right: 9px;
     bottom: 9px;
     font-size: .7rem;
+  }
+}
+
+
+/* Live site stats: overlay only, does not affect existing layout */
+.site-live-stats {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #8fa9b9;
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .45);
+}
+
+.live-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.site-live-stats strong {
+  color: #dceaf2;
+  font-weight: 800;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #58d68d;
+  box-shadow: 0 0 9px rgba(88, 214, 141, .58);
+}
+
+.live-stat-separator {
+  color: #587386;
+}
+
+@media (max-width: 560px) {
+  .site-live-stats {
+    top: 3px;
+    right: 2px;
+    gap: 5px;
+    font-size: .64rem;
   }
 }
